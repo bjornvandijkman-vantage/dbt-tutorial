@@ -4,7 +4,7 @@ jaffle_shop:
     dev:
       type: bigquery
       method: service-account
-      keyfile: "{{ env_var('DBT_BIGQUERY_TOKEN') }}"
+      keyfile: { { env_var('DBT_BIGQUERY_TOKEN') } }
       project: "{{ env_var('DBT_GOOGLE_PROJECT') }}"
       dataset: "{{ env_var('DBT_GOOGLE_BIGQUERY_DATASET') }}"
       threads: 1
