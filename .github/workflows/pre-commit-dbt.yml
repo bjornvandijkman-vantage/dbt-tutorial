@@ -1,0 +1,24 @@
+name: Pre-commit-dbt
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+    branches:
+      - main
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: "actions/checkout@v2"
+      - uses: "actions/setup-python@v2"
+      - id: file_changes
+        uses: "trilom/file-changes-action@v1.2.4"
+        with:
+          output: " "
+      - name: Install pre-commit-dbt
+        run: "pip install pre-commit==2.15.0"
+      - name: Run pre-commit
+        run: "pre-commit run --files ${{ steps.file_changes.outputs.files }}"
