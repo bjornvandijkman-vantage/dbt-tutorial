@@ -35,14 +35,14 @@ jobs:
       - name: Install dependencies
         run: |
           pip install dbt
-          dbt deps
+          dbt deps --target dev
 
       # Add dbt seed or other commands here if needed
       - name: Set seed dbt models
         run: dbt seed
 
       - name: Run dbt models
-        run: dbt run
+        run: dbt run --target dev
 
       - name: Test dbt models
-        run: dbt test
+        run: dbt test --target dev
