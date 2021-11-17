@@ -30,16 +30,16 @@ jobs:
         run: 'echo "$KEYFILE" > ./dbt-service-account.json'
         shell: bash
         env:
-          KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE_PROD}}
+          KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE}}
 
       - name: Install dependencies
         run: |
           pip install dbt
-          dbt deps --target prod
+          dbt deps
 
       # Add dbt seed or other commands here if needed
       - name: Run dbt models
-        run: dbt run --target prod
+        run: dbt run
 
       - name: Test dbt models
-        run: dbt test --target prod
+        run: dbt test

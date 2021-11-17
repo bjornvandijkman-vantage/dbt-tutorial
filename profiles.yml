@@ -4,9 +4,9 @@ jaffle_shop:
     dev:
       type: bigquery
       method: service-account
-      keyfile: dbt-testing-creds.json
-      project: dbt-testing-332412
-      dataset: dbt_bjorn # You can also use "schema" here
+      keyfile: "{{ env_var('DBT_BIGQUERY_TOKEN') }}"
+      project: "{{ env_var('DBT_GOOGLE_PROJECT') }}"
+      dataset: "{{ env_var('DBT_GOOGLE_BIGQUERY_DATASET') }}"
       threads: 1
       timeout_seconds: 300
       location: europe-west4 # Optional, one of US or EU
