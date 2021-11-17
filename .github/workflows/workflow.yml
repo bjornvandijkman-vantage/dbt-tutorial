@@ -41,8 +41,5 @@ jobs:
       - name: Set seed dbt models
         run: dbt seed
 
-      - name: Run dbt models
-        run: dbt run --target dev
-
       - name: Test dbt models
-        run: dbt test --target dev
+        run: dbt test
