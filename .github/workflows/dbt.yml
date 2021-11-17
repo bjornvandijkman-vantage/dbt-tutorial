@@ -23,7 +23,7 @@ jobs:
           python-version: "3.7.x"
       - run: pip3 install dbt
       - run: dbt --version
-      - run: 'echo "$KEYFILE" > ./dbt-service-account.json
+      - run: 'echo "$KEYFILE" > ./dbt-service-account.json'
         shell: bash
         env:
           KEYFILE: ${{secrets.DBT_BIGQUERY_TOKEN}}
