@@ -24,7 +24,7 @@ jobs:
 
       - uses: actions/setup-python@v1
         with:
-          python-version: "3.7.x"
+          python-version: "3.9.7"
 
       - name: Authenticate using service account
         run: 'echo "$KEYFILE" > ./dbt-service-account.json'
@@ -38,6 +38,9 @@ jobs:
           dbt deps
 
       # Add dbt seed or other commands here if needed
+      - name: Set seed dbt models
+        run: dbt seed
+
       - name: Run dbt models
         run: dbt run
 
