@@ -5,21 +5,41 @@ on:
     branches:
       - main
 
+env:
+  DBT_PROFILES_DIR: ./
+
+  DBT_GOOGLE_PROJECT_PROD: ${{ secrets.DBT_GOOGLE_PROJECT }}
+  DBT_GOOGLE_BIGQUERY_DATASET_PROD: ${{ secrets.DBT_GOOGLE_BIGQUERY_DATASET }}
+  # The DBT_GOOGLE_BIGQUERY_KEYFILE_PROD secret will be written to a json file below
+  DBT_GOOGLE_BIGQUERY_KEYFILE_PROD: ./dbt-service-account.json
+
 jobs:
-  action:
+  scheduled_run:
+    name: scheduled_run
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Check out
+        uses: actions/checkout@master
 
-      - name: dbt-run
-        id: dbt-run
-        uses: mwhitaker/dbt-action@master
+      - uses: actions/setup-python@v1
         with:
-          dbt_command: "dbt run --profiles-dir ."
-          dbt_project_folder: "dbt_project"
-        env:
-          DBT_BIGQUERY_TOKEN: ${{ secrets.DBT_BIGQUERY_TOKEN }}
-      - name: Get the result
-        run: echo "${{ steps.dbt-run.outputs.result }}"
+          python-version: "3.7.x"
+
+      - name: Authenticate using service account
+        run: 'echo "$KEYFILE" > ./dbt-service-account.json'
         shell: bash
+        env:
+          KEYFILE: ${{secrets.DBT_GOOGLE_BIGQUERY_KEYFILE_PROD}}
+
+      - name: Install dependencies
+        run: |
+          pip install dbt
+          dbt deps --target prod
+
+      # Add dbt seed or other commands here if needed
+      - name: Run dbt models
+        run: dbt run --target prod
+
+      - name: Test dbt models
+        run: dbt test --target prod
