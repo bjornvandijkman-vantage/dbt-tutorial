@@ -4,7 +4,7 @@ jaffle_shop:
     dev:
       type: bigquery
       method: service-account
-      keyfile: /Users/bjornvandijkman/.dbt/dbt-testing-creds.json
+      keyfile: ${{ secrets.DBT_BIGQUERY_TOKEN }}
       project: dbt-testing-332412
       dataset: dbt_bjorn # You can also use "schema" here
       threads: 1
