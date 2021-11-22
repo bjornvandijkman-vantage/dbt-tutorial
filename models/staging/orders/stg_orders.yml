@@ -4,8 +4,8 @@ models:
   - name: stg_orders
     tests:
       - dbt_expectations.expect_table_column_count_to_be_between:
-          min_value: 1
-          max_value: 5
+          min_value: 10
+          max_value: 15
     columns:
       - name: order_id
         tests:
